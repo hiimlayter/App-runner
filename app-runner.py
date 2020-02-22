@@ -1,25 +1,38 @@
 import tkinter as tk
 from tkinter import filedialog, Text
 import os
+import ntpath
+ntpath.basename("a/b/c")
 
 root = tk.Tk()
 root.title("App Runner")
 root.resizable(width=False,height=False)
 sets = []
+apps = []
 
 if os.path.isdir('sets'):
-    for (dirpath, dirnames, filenames) in os.walk(os.getcwd()+"\sets"):
-        sets.append(filenames)
+    for file in os.listdir(os.getcwd()+"\sets"):
+        if os.path.isfile(os.path.join(os.getcwd()+"\sets", file)):
+            sets.append(file)
 else:
     os.mkdir("sets")
 
+activeSetApps = []
+activeSet = ""
 
+def path_leaf(path):
+    head, tail = ntpath.split(path)
+    return tail or ntpath.basename(head)
 
-#Functions for lists clearing
+#Function for list element selection
+
+def selectListEl(evt):
+    activeSet = str(setsList.get(setsList.curselection()))
+
+#Function for lists clearing
 
 def setClear():
-    for widget in appSetList.winfo_children():
-        widget.destroy()
+    setsList.delete(0,'end')
 
 def appClear():
     for widget in appsInSet.winfo_children():
@@ -37,18 +50,39 @@ def addApp():
 
     printSets()
 
+#Function for removing apps from set
+
+def removeApp():
+
+    appClear()
+
+    filename = filedialog.askopenfilename(initialdir="/", title="Select File", filetypes=(("executables","*.exe"), ("all files", "*.*")))
+    if filename != "":
+        apps.append(filename)
+
+    printSets()
+
 #Function fot running selected app set
 
 def runApps():
     for app in apps:
         os.startfile(app)
 
-#Function for saving set
+#Function for removing set
 
-def saveSet():
+def delSet():
     with open('save.txt','w') as f:
         for app in apps:
             f.write(app+'\n')
+    printSets()
+
+#Function for adding new set
+
+def addSet():
+    with open('save.txt','w') as f:
+        for app in apps:
+            f.write(app+'\n')
+    printSets()
 
 #Canvas
 
@@ -80,6 +114,8 @@ appsListLabel.place(relwidth=1,relheight=0.1, rely=0)
 setsList = tk.Listbox(appSetList)
 appList = tk.Listbox(appsInSet)
 
+setsList.bind('<<ListboxSelect>>',selectListEl)
+
 setsList.place(relwidth=1,relheight=0.9, rely=0.1)
 appList.place(relwidth=1,relheight=0.9, rely=0.1)
 
@@ -94,33 +130,42 @@ runSet.place(relx=0.15,rely=0.2)
 addSet = tk.Button(appSetOptions,text="Add Set",
                      padx=5, pady=2,
                      fg="white", bg="#0F0F0F",
-                     height = 2, width = 30, command=addApp)
+                     height = 2, width = 30, command=addSet)
 addSet.place(relx=0.15,rely=0.5)
 
-delSet = tk.Button(appSetOptions,text="Del Set",
+delSet = tk.Button(appSetOptions,text="Delete Set",
                     padx=5, pady=2,
                     fg="white", bg="#0F0F0F",
-                    height = 2, width = 30, command=saveSet)
+                    height = 2, width = 30, command=delSet)
 delSet.place(relx=0.15,rely=0.8)
 
 addApp = tk.Button(appsOptions,text="Add App",
                     padx=5, pady=2,
                     fg="white", bg="#0F0F0F",
-                    height = 2, width = 30, command=saveSet)
+                    height = 2, width = 30, command=addApp)
 addApp.place(relx=0.05)
 
 removeApp = tk.Button(appsOptions,text="Remove App",
                     padx=5, pady=2,
                     fg="white", bg="#0F0F0F",
-                    height = 2, width = 30, command=saveSet)
+                    height = 2, width = 30, command=removeApp)
 removeApp.place(relx=0.6)
 
 #Function for printing list of sets
 
 def printSets():
+    setClear()
     for set in sets:
-        label = tk.Label(setsList,text=set, bg="gray")
-        label.pack()
+        setsList.insert(tk.END, "   "+set.replace('.txt',''))
+
+printSets()
+
+#Function for printing list of apps
+
+def printApps():
+    appClear()
+    for app in apps:
+        appsInSet.insert(tk.END, "   "+path_leaf(app))
 
 printSets()
 
