@@ -5,23 +5,37 @@ import os
 root = tk.Tk()
 root.title("App Runner")
 root.resizable(width=False,height=False)
-apps = []
+sets = []
 
+if os.path.isdir('sets'):
+    for (dirpath, dirnames, filenames) in os.walk(os.getcwd()+"\sets"):
+        sets.append(filenames)
+else:
+    os.mkdir("sets")
+
+
+
+#Functions for lists clearing
+
+def setClear():
+    for widget in appSetList.winfo_children():
+        widget.destroy()
+
+def appClear():
+    for widget in appsInSet.winfo_children():
+        widget.destroy()
 
 #Function for adding apps to set
 
 def addApp():
 
-    for widget in appSetList.winfo_children():
-        widget.destroy()
+    appClear()
 
     filename = filedialog.askopenfilename(initialdir="/", title="Select File", filetypes=(("executables","*.exe"), ("all files", "*.*")))
     if filename != "":
         apps.append(filename)
 
-    for app in apps:
-        label = tk.Label(appSetList,text=app, bg="gray")
-        label.pack()
+    printSets()
 
 #Function fot running selected app set
 
@@ -100,6 +114,15 @@ removeApp = tk.Button(appsOptions,text="Remove App",
                     fg="white", bg="#0F0F0F",
                     height = 2, width = 30, command=saveSet)
 removeApp.place(relx=0.6)
+
+#Function for printing list of sets
+
+def printSets():
+    for set in sets:
+        label = tk.Label(setsList,text=set, bg="gray")
+        label.pack()
+
+printSets()
 
 root.mainloop()
 
