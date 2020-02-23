@@ -10,15 +10,22 @@ root.resizable(width=False,height=False)
 sets = []
 apps = []
 
-if os.path.isdir('sets'):
-    for file in os.listdir(os.getcwd()+"\sets"):
-        if os.path.isfile(os.path.join(os.getcwd()+"\sets", file)):
-            sets.append(file)
-else:
-    os.mkdir("sets")
-
 activeSetApps = []
 activeSet = ""
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - FUNCTIONS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+#Function for set reading
+
+def setRead():
+    if os.path.isdir('sets'):
+        for file in os.listdir(os.getcwd() + "\sets"):
+            if os.path.isfile(os.path.join(os.getcwd() + "\sets", file)):
+                sets.append(file)
+    else:
+        os.mkdir("sets")
+
+#Functions for getting name of file
 
 def path_leaf(path):
     head, tail = ntpath.split(path)
@@ -29,14 +36,8 @@ def path_leaf(path):
 def selectListEl(evt):
     activeSet = str(setsList.get(setsList.curselection()))
 
-#Function for lists clearing
 
-def setClear():
-    setsList.delete(0,'end')
-
-def appClear():
-    for widget in appsInSet.winfo_children():
-        widget.destroy()
+#BUTTTONS
 
 #Function for adding apps to set
 
@@ -56,9 +57,7 @@ def removeApp():
 
     appClear()
 
-    filename = filedialog.askopenfilename(initialdir="/", title="Select File", filetypes=(("executables","*.exe"), ("all files", "*.*")))
-    if filename != "":
-        apps.append(filename)
+
 
     printSets()
 
@@ -83,6 +82,32 @@ def addSet():
         for app in apps:
             f.write(app+'\n')
     printSets()
+
+#LISTING
+
+#Function for printing list of sets
+
+def printSets():
+    setClear()
+    for set in sets:
+        setsList.insert(tk.END, "   "+set.replace('.txt',''))
+
+#Function for printing list of apps
+
+def printApps():
+    appClear()
+    for app in apps:
+        appsInSet.insert(tk.END, "   "+path_leaf(app))
+
+#Function for lists clearing
+
+def setClear():
+    setsList.delete(0,'end')
+
+def appClear():
+    appList.delete(0, 'end')
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GUI - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 #Canvas
 
@@ -151,22 +176,8 @@ removeApp = tk.Button(appsOptions,text="Remove App",
                     height = 2, width = 30, command=removeApp)
 removeApp.place(relx=0.6)
 
-#Function for printing list of sets
 
-def printSets():
-    setClear()
-    for set in sets:
-        setsList.insert(tk.END, "   "+set.replace('.txt',''))
-
-printSets()
-
-#Function for printing list of apps
-
-def printApps():
-    appClear()
-    for app in apps:
-        appsInSet.insert(tk.END, "   "+path_leaf(app))
-
+setRead()
 printSets()
 
 root.mainloop()
