@@ -179,6 +179,7 @@ removeApp.place(relx=0.6)
 
 setRead()
 printSets()
+printApps()
 
 root.mainloop()
 
