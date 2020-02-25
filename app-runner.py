@@ -10,7 +10,7 @@ root.resizable(width=False,height=False)
 sets = []
 
 activeSetApps = []
-activeSet = ""
+selectedApp = ""
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - FUNCTIONS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -32,7 +32,15 @@ def path_leaf(path):
 
 #Function for list element selection
 
-def selectListEl(evt):
+def selectSet(evt):
+    activeSet = str(setsList.get(setsList.curselection()))
+    f = open("sets/"+activeSet+".txt")
+    activeSetApps = f.read().split('\n')
+    print(activeSetApps)
+    f.close()
+
+def selectApp(evt):
+
     activeSet = str(setsList.get(setsList.curselection()))
     f = open("sets/"+activeSet+".txt")
     activeSetApps = f.read().split('\n')
@@ -138,7 +146,8 @@ appsListLabel.place(relwidth=1,relheight=0.1, rely=0)
 setsList = tk.Listbox(appSetList)
 appList = tk.Listbox(appsInSet)
 
-setsList.bind('<<ListboxSelect>>',selectListEl)
+setsList.bind('<<ListboxSelect>>',selectSet)
+appList.bind('<<ListboxSelect>>',selectApp)
 
 setsList.place(relwidth=1,relheight=0.9, rely=0.1)
 appList.place(relwidth=1,relheight=0.9, rely=0.1)
