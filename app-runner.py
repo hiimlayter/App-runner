@@ -8,7 +8,6 @@ root = tk.Tk()
 root.title("App Runner")
 root.resizable(width=False,height=False)
 sets = []
-apps = []
 
 activeSetApps = []
 activeSet = ""
@@ -35,6 +34,10 @@ def path_leaf(path):
 
 def selectListEl(evt):
     activeSet = str(setsList.get(setsList.curselection()))
+    f = open("sets/"+activeSet+".txt")
+    activeSetApps = f.read().split('\n')
+    print(activeSetApps)
+    f.close()
 
 
 #BUTTTONS
@@ -47,24 +50,22 @@ def addApp():
 
     filename = filedialog.askopenfilename(initialdir="/", title="Select File", filetypes=(("executables","*.exe"), ("all files", "*.*")))
     if filename != "":
-        apps.append(filename)
+        activeSetApps.append(filename)
 
-    printSets()
+    printApps()
 
 #Function for removing apps from set
 
 def removeApp():
 
     appClear()
-
-
-
+    #...
     printSets()
 
 #Function fot running selected app set
 
 def runApps():
-    for app in apps:
+    for app in activeSetApps:
         os.startfile(app)
 
 #Function for removing set
@@ -78,9 +79,7 @@ def delSet():
 #Function for adding new set
 
 def addSet():
-    with open('save.txt','w') as f:
-        for app in apps:
-            f.write(app+'\n')
+    print("Add Set")
     printSets()
 
 #LISTING
@@ -90,14 +89,14 @@ def addSet():
 def printSets():
     setClear()
     for set in sets:
-        setsList.insert(tk.END, "   "+set.replace('.txt',''))
+        setsList.insert(tk.END, set.replace('.txt',''))
 
 #Function for printing list of apps
 
 def printApps():
     appClear()
-    for app in apps:
-        appsInSet.insert(tk.END, "   "+path_leaf(app))
+    for app in activeSetApps:
+        appList.insert(tk.END, path_leaf(app))
 
 #Function for lists clearing
 
