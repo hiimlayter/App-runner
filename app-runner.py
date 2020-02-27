@@ -1,16 +1,16 @@
-import tkinter as tk
-from tkinter import filedialog
-import os
 import ntpath
+import os
+from tkinter import filedialog
+import tkinter as tk
 ntpath.basename("a/b/c")
 
 root = tk.Tk()
 root.title("App Runner")
 root.resizable(width=False, height=False)
 sets = []
-
+activeSet = ""
 activeSetApps = []
-selectedApp = ""
+activeApp = ""
 
 # - - - - - - - - - - - -FUNCTIONS - - - - - - - - - - - - - - - -
 
@@ -36,20 +36,20 @@ def path_leaf(path):
 
 
 def selectSet(evt):
+    global activeSetApps
+    activeSetApps = []
+    global activeSet
     activeSet = str(setsList.get(setsList.curselection()))
-    f = open("sets/"+activeSet+".txt")
-    activeSetApps = f.read().split('\n')
-    print(activeSetApps)
+    dir = "sets/"+str(activeSet)+".txt"
+    f = open(dir, "r")
+    activeSetApps = f.read().split("\n")
+    printApps()
     f.close()
 
 
 def selectApp(evt):
 
-    activeSet = str(setsList.get(setsList.curselection()))
-    f = open("sets/"+activeSet+".txt")
-    activeSetApps = f.read().split('\n')
-    print(activeSetApps)
-    f.close()
+    print("selected app")
 
 
 # BUTTTONS
@@ -59,11 +59,19 @@ def selectApp(evt):
 def addApp():
 
     appClear()
-
+    global activeSetApps
+    global activeSet
     filename = filedialog.askopenfilename(
-        initialdir="/", title="Select File", filetypes=(("executables", "*.exe"), ("all files", "*.*")))
+        initialdir="/", title="Select File", filetypes=(("PNG", "*.png"), ("Executables", "*.exe"), ("JPG", "*.jpg"), ("All files", "*.*")))
     if filename != "":
         activeSetApps.append(filename)
+    print(activeSet)
+    dir = "sets/"+str(activeSet)+".txt"
+    f = open(dir, "a")
+    for app in activeSetApps:
+        f.write(app)
+        f.write("\n")
+    f.close()
 
     printApps()
 
@@ -80,6 +88,7 @@ def removeApp():
 
 
 def runApps():
+    global activeSetApps
     for app in activeSetApps:
         os.startfile(app)
 
@@ -113,9 +122,11 @@ def printSets():
 
 
 def printApps():
+    global activeSetApps
     appClear()
     for app in activeSetApps:
-        appList.insert(tk.END, path_leaf(app))
+        if app != "":
+            appList.insert(tk.END, path_leaf(app))
 
 # Function for lists clearing
 
