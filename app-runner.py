@@ -37,12 +37,14 @@ def path_leaf(path):
 
 def selectSet(evt):
     global activeSetApps
-    activeSetApps = []
     global activeSet
+    activeSetApps.clear()
     activeSet = str(setsList.get(setsList.curselection()))
     dir = "sets/"+str(activeSet)+".txt"
     f = open(dir, "r")
     activeSetApps = f.read().split("\n")
+    print("select: active:")
+    print(activeSetApps)
     printApps()
     f.close()
 
@@ -57,7 +59,6 @@ def selectApp(evt):
 # Function for adding apps to set
 
 def addApp():
-
     appClear()
     global activeSetApps
     global activeSet
@@ -65,14 +66,12 @@ def addApp():
         initialdir="/", title="Select File", filetypes=(("PNG", "*.png"), ("Executables", "*.exe"), ("JPG", "*.jpg"), ("All files", "*.*")))
     if filename != "":
         activeSetApps.append(filename)
-    print(activeSet)
     dir = "sets/"+str(activeSet)+".txt"
     f = open(dir, "a")
-    for app in activeSetApps:
-        f.write(app)
-        f.write("\n")
+    f.write(str(filename)+"\n")
     f.close()
-
+    print("add: active:")
+    print(activeSetApps)
     printApps()
 
 # Function for removing apps from set
@@ -96,9 +95,6 @@ def runApps():
 
 
 def delSet():
-    with open('save.txt', 'w') as f:
-        for app in apps:
-            f.write(app+'\n')
     printSets()
 
 # Function for adding new set
