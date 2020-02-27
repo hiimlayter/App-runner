@@ -14,10 +14,8 @@ activeApp = ""
 
 # - - - - - - - - - - - -FUNCTIONS - - - - - - - - - - - - - - - -
 
-# Function for set reading
 
-
-def setRead():
+def setRead():  # Function for set reading
     if os.path.isdir('sets'):
         for file in os.listdir(os.getcwd() + "\sets"):
             if os.path.isfile(os.path.join(os.getcwd() + "\sets", file)):
@@ -25,17 +23,13 @@ def setRead():
     else:
         os.mkdir("sets")
 
-# Functions for getting name of file
 
-
-def path_leaf(path):
+def path_leaf(path):  # Functions for getting name of file
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
 
-# Function for list element selection
 
-
-def selectSet(evt):
+def selectSet(evt):  # Function for list element selection
     global activeSetApps
     global activeSet
     activeSetApps.clear()
@@ -50,15 +44,12 @@ def selectSet(evt):
 
 
 def selectApp(evt):
-
     print("selected app")
-
 
 # BUTTTONS
 
-# Function for adding apps to set
 
-def addApp():
+def addApp():  # Function for adding apps to set
     appClear()
     global activeSetApps
     global activeSet
@@ -74,76 +65,59 @@ def addApp():
     print(activeSetApps)
     printApps()
 
-# Function for removing apps from set
 
-
-def removeApp():
-
+def removeApp():  # Function for removing apps from set
     appClear()
     # ...
     printSets()
 
-# Function fot running selected app set
 
-
-def runApps():
+def runApps():  # Function fot running selected app set
     global activeSetApps
     for app in activeSetApps:
         os.startfile(app)
 
-# Function for removing set
 
-
-def delSet():
+def delSet():  # Function for removing set
     printSets()
 
-# Function for adding new set
 
-
-def addSet():
+def addSet():  # Function for adding new set
     print("Add Set")
     printSets()
 
 # LISTING
 
-# Function for printing list of sets
 
-
-def printSets():
+def printSets():  # Function for printing list of sets
     setClear()
     for set in sets:
         setsList.insert(tk.END, set.replace('.txt', ''))
 
-# Function for printing list of apps
 
-
-def printApps():
+def printApps():  # Function for printing list of apps
     global activeSetApps
     appClear()
     for app in activeSetApps:
         if app != "":
             appList.insert(tk.END, path_leaf(app))
 
-# Function for lists clearing
 
-
-def setClear():
+def setClear():  # Function for lists clearing
     setsList.delete(0, 'end')
 
 
 def appClear():
     appList.delete(0, 'end')
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GUI - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - GUI - - - - - - - - - - - - - - - -
+
 
 # Canvas
-
-
 canvas = tk.Canvas(root, height=700, width=700)
 canvas.pack()
 
 # Frames
-
 appSetList = tk.Frame(root)
 appSetOptions = tk.Frame(root)
 appsInSet = tk.Frame(root)
@@ -154,8 +128,7 @@ appSetList.place(relwidth=0.4, relheight=0.4, relx=0.55, rely=0.05)
 appsInSet.place(relwidth=0.9, relheight=0.3, relx=0.05, rely=0.5)
 appsOptions.place(relwidth=0.9, relheight=0.2, relx=0.05, rely=0.85)
 
-# abels
-
+# Labels
 setsListLabel = tk.Label(appSetList, text="Saved sets:")
 appsListLabel = tk.Label(appsInSet, text="Apps to start in set:")
 
@@ -163,7 +136,6 @@ setsListLabel.place(relwidth=1, relheight=0.1, rely=0)
 appsListLabel.place(relwidth=1, relheight=0.1, rely=0)
 
 # ListBoxes
-
 setsList = tk.Listbox(appSetList)
 appList = tk.Listbox(appsInSet)
 
@@ -174,7 +146,6 @@ setsList.place(relwidth=1, relheight=0.9, rely=0.1)
 appList.place(relwidth=1, relheight=0.9, rely=0.1)
 
 # Buttons
-
 runSet = tk.Button(appSetOptions, text="Run Set",
                    padx=5, pady=2,
                    fg="white", bg="#0F0F0F",
