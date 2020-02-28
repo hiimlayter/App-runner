@@ -46,7 +46,8 @@ def appSelect(evt):
     print("Called Select App")
     global activeSetApps
     global activeApp
-    activeApp = str(appList.get(appList.curselection()))
+    activeApp = str(appsList.get(appsList.curselection()))
+    print(activeApp)
 
 # BUTTTONS
 
@@ -104,7 +105,7 @@ def printApps():  # Function for printing list of apps
     appClear()
     for app in activeSetApps:
         if app != "":
-            appList.insert(tk.END, path_leaf(app))
+            appsList.insert(tk.END, path_leaf(app))
 
 
 def setClear():  # Function for lists clearing
@@ -112,7 +113,7 @@ def setClear():  # Function for lists clearing
 
 
 def appClear():
-    appList.delete(0, 'end')
+    appsList.delete(0, 'end')
 
 # - - - - - - - - - - - - - - GUI - - - - - - - - - - - - - - - -
 
@@ -141,13 +142,13 @@ appsListLabel.place(relwidth=1, relheight=0.1, rely=0)
 
 # ListBoxes
 setsList = tk.Listbox(appSetList)
-appList = tk.Listbox(appsInSet)
+appsList = tk.Listbox(appsInSet)
 
 setsList.bind('<<ListboxSelect>>', selectSet)
-appList.bind('<<ListboxSelect>>', appSelect)
+appsList.bind('<<ListboxSelect>>', appSelect)
 
 setsList.place(relwidth=1, relheight=0.9, rely=0.1)
-appList.place(relwidth=1, relheight=0.9, rely=0.1)
+appsList.place(relwidth=1, relheight=0.9, rely=0.1)
 
 # Buttons
 runSet = tk.Button(appSetOptions, text="Run Set",
