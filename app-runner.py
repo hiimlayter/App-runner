@@ -24,12 +24,13 @@ def setRead():  # Function for set reading
         os.mkdir("sets")
 
 
-def path_leaf(path):  # Functions for getting name of file
+def path_leaf(path):  # Function for getting name of file
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
 
 
-def selectSet(evt):  # Function for list element selection
+def selectSet(evt):  # Functions for list element selection
+    print("Called Select Set")
     global activeSetApps
     global activeSet
     activeSetApps.clear()
@@ -41,10 +42,11 @@ def selectSet(evt):  # Function for list element selection
     f.close()
 
 
-def selectApp(evt):
+def appSelect(evt):
+    print("Called Select App")
     global activeSetApps
     global activeApp
-    activeApp = str(setsList.get(setsList.curselection()))
+    activeApp = str(appList.get(appList.curselection()))
 
 # BUTTTONS
 
@@ -67,8 +69,10 @@ def addApp():  # Function for adding apps to set
 def removeApp():  # Function for removing apps from set
     appClear()
     global activeSetApps
-    global activeSet
-
+    global activeApp
+    print(activeSetApps)
+    activeSetApps.remove(activeApp)
+    print(activeSetApps)
     printApps()
 
 
@@ -140,7 +144,7 @@ setsList = tk.Listbox(appSetList)
 appList = tk.Listbox(appsInSet)
 
 setsList.bind('<<ListboxSelect>>', selectSet)
-appList.bind('<<ListboxSelect>>', selectApp)
+appList.bind('<<ListboxSelect>>', appSelect)
 
 setsList.place(relwidth=1, relheight=0.9, rely=0.1)
 appList.place(relwidth=1, relheight=0.9, rely=0.1)
