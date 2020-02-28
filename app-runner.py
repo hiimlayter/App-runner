@@ -37,14 +37,14 @@ def selectSet(evt):  # Function for list element selection
     dir = "sets/"+str(activeSet)+".txt"
     f = open(dir, "r")
     activeSetApps = f.read().split("\n")
-    print("select: active:")
-    print(activeSetApps)
     printApps()
     f.close()
 
 
 def selectApp(evt):
-    print("selected app")
+    global activeSetApps
+    global activeApp
+    activeApp = str(setsList.get(setsList.curselection()))
 
 # BUTTTONS
 
@@ -61,15 +61,15 @@ def addApp():  # Function for adding apps to set
     f = open(dir, "a")
     f.write(str(filename)+"\n")
     f.close()
-    print("add: active:")
-    print(activeSetApps)
     printApps()
 
 
 def removeApp():  # Function for removing apps from set
     appClear()
-    # ...
-    printSets()
+    global activeSetApps
+    global activeSet
+
+    printApps()
 
 
 def runApps():  # Function fot running selected app set
