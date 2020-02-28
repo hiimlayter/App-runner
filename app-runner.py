@@ -141,8 +141,8 @@ setsListLabel.place(relwidth=1, relheight=0.1, rely=0)
 appsListLabel.place(relwidth=1, relheight=0.1, rely=0)
 
 # ListBoxes
-setsList = tk.Listbox(appSetList)
-appsList = tk.Listbox(appsInSet)
+setsList = tk.Listbox(appSetList, exportselection=False)
+appsList = tk.Listbox(appsInSet, exportselection=False)
 
 setsList.bind('<<ListboxSelect>>', selectSet)
 appsList.bind('<<ListboxSelect>>', appSelect)
