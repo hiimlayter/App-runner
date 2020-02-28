@@ -114,23 +114,23 @@ def appClear():
 
 
 # Canvas
-canvas = tk.Canvas(root, height=700, width=700)
+canvas = tk.Canvas(root, height=700, width=700, background="#353535")
 canvas.pack()
 
 # Frames
-appSetList = tk.Frame(root)
-appSetOptions = tk.Frame(root)
-appsInSet = tk.Frame(root)
-appsOptions = tk.Frame(root)
+appSetList = tk.Frame(root, bg="#353535")
+appSetOptions = tk.Frame(root, bg="#353535")
+appsInSet = tk.Frame(root, bg="#353535")
+appsOptions = tk.Frame(root, bg="#353535")
 
 appSetOptions.place(relwidth=0.4, relheight=0.3, relx=0.05, rely=0.05)
 appSetList.place(relwidth=0.4, relheight=0.4, relx=0.55, rely=0.05)
 appsInSet.place(relwidth=0.9, relheight=0.3, relx=0.05, rely=0.5)
-appsOptions.place(relwidth=0.9, relheight=0.2, relx=0.05, rely=0.85)
+appsOptions.place(relwidth=0.9, relheight=0.1, relx=0.05, rely=0.85)
 
 # Labels
-setsListLabel = tk.Label(appSetList, text="Saved sets:")
-appsListLabel = tk.Label(appsInSet, text="Apps to start in set:")
+setsListLabel = tk.Label(appSetList, text="Saved sets:", bg="#353535", fg="#FFFFFF")
+appsListLabel = tk.Label(appsInSet, text="Apps to start in set:", bg="#353535", fg="#FFFFFF")
 
 setsListLabel.place(relwidth=1, relheight=0.1, rely=0)
 appsListLabel.place(relwidth=1, relheight=0.1, rely=0)
@@ -148,31 +148,26 @@ appList.place(relwidth=1, relheight=0.9, rely=0.1)
 # Buttons
 runSet = tk.Button(appSetOptions, text="Run Set",
                    padx=5, pady=2,
-                   fg="white", bg="#0F0F0F",
                    height=2, width=30, command=runApps)
 runSet.place(relx=0.15, rely=0.2)
 
 addSet = tk.Button(appSetOptions, text="Add Set",
                    padx=5, pady=2,
-                   fg="white", bg="#0F0F0F",
                    height=2, width=30, command=addSet)
 addSet.place(relx=0.15, rely=0.5)
 
 delSet = tk.Button(appSetOptions, text="Delete Set",
                    padx=5, pady=2,
-                   fg="white", bg="#0F0F0F",
                    height=2, width=30, command=delSet)
 delSet.place(relx=0.15, rely=0.8)
 
 addApp = tk.Button(appsOptions, text="Add App",
                    padx=5, pady=2,
-                   fg="white", bg="#0F0F0F",
                    height=2, width=30, command=addApp)
 addApp.place(relx=0.05)
 
 removeApp = tk.Button(appsOptions, text="Remove App",
                       padx=5, pady=2,
-                      fg="white", bg="#0F0F0F",
                       height=2, width=30, command=removeApp)
 removeApp.place(relx=0.6)
 
