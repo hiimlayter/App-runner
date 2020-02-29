@@ -86,7 +86,8 @@ def removeApp():  # Function for removing apps from set
 def runApps():  # Function fot running selected app set
     global activeSetApps
     for app in activeSetApps:
-        os.startfile(app)
+        if app != "":
+            os.startfile(app)
 
 
 def delSet():  # Function for removing set
