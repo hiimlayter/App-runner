@@ -30,7 +30,6 @@ def path_leaf(path):  # Function for getting name of file
 
 
 def selectSet(evt):  # Functions for list element selection
-    print("Called Select Set")
     global activeSetApps
     global activeSet
     activeSetApps.clear()
@@ -43,7 +42,6 @@ def selectSet(evt):  # Functions for list element selection
 
 
 def appSelect(evt):
-    print("Called Select App")
     global activeSetApps
     global activeApp
     activeApp = str(appsList.get(appsList.curselection()))
@@ -73,6 +71,14 @@ def removeApp():  # Function for removing apps from set
     global activeApp
     print(activeSetApps)
     activeSetApps.remove(activeApp)
+    dir = "sets/"+str(activeSet)+".txt"
+    f = open(dir, "r")
+    lines = f.readlines()
+    f.close()
+    f = open(dir, "w")
+    for line in lines:
+        if line.strip("\n") != activeApp:
+            f.write(line)
     print(activeSetApps)
     printApps()
 
@@ -84,6 +90,13 @@ def runApps():  # Function fot running selected app set
 
 
 def delSet():  # Function for removing set
+    global activeSet
+    to_del = str(activeSet) + ".txt"
+    global sets
+    dir = "sets/"+to_del
+    os.remove(dir)
+    sets.remove(to_del)
+    appClear()
     printSets()
 
 
@@ -105,7 +118,7 @@ def printApps():  # Function for printing list of apps
     appClear()
     for app in activeSetApps:
         if app != "":
-            appsList.insert(tk.END, path_leaf(app))
+            appsList.insert(tk.END, app)
 
 
 def setClear():  # Function for lists clearing
