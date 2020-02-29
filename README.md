@@ -7,4 +7,6 @@
  - Deleting sets
  - Modifing sets
  
-# Work in progress
+# To change futere updates:
+ - GUI redesign
+ - Printing programs names instead of their path 
