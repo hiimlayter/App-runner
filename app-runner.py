@@ -1,8 +1,6 @@
-import ntpath
 import os
-from tkinter import filedialog
+from tkinter import filedialog, simpledialog
 import tkinter as tk
-ntpath.basename("a/b/c")
 
 root = tk.Tk()
 root.title("App Runner")
@@ -15,6 +13,10 @@ activeApp = ""
 # - - - - - - - - - - - -FUNCTIONS - - - - - - - - - - - - - - - -
 
 
+def getName():
+    return simpledialog.askstring("Set name", "New set name: ")
+
+
 def setRead():  # Function for set reading
     if os.path.isdir('sets'):
         for file in os.listdir(os.getcwd() + "\sets"):
@@ -22,11 +24,6 @@ def setRead():  # Function for set reading
                 sets.append(file)
     else:
         os.mkdir("sets")
-
-
-def path_leaf(path):  # Function for getting name of file
-    head, tail = ntpath.split(path)
-    return tail or ntpath.basename(head)
 
 
 def selectSet(evt):  # Functions for list element selection
@@ -103,6 +100,12 @@ def delSet():  # Function for removing set
 
 def addSet():  # Function for adding new set
     print("Add Set")
+    setName = getName()
+    print(sets)
+    dir = "sets/" + setName + ".txt"
+    f = open(dir, "w")
+    f.close()
+    sets.append(setName + ".txt")
     printSets()
 
 # LISTING
