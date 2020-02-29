@@ -7,6 +7,6 @@
  - Deleting sets
  - Modifing sets
  
-# To change futere updates:
+# To change in future:
  - GUI redesign
  - Printing programs names instead of their path 
