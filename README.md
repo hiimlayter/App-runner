@@ -20,7 +20,7 @@
  
 ## Instruction
  - First you have to create a new set of applications. Then add some programs that you often use at the same time. Once you're done you can run all of those programs with one click.
-![Preview](.preview.PNG)
+![Preview](preview.PNG)
  
 ## Technologies:
  - Python 3
