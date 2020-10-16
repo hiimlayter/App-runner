@@ -1,6 +1,7 @@
 import os
 from tkinter import filedialog, simpledialog
 import tkinter as tk
+import sys
 
 root = tk.Tk()
 root.title("App Runner")
@@ -11,7 +12,6 @@ activeSetApps = []
 activeApp = ""
 
 # - - - - - - - - - - - -FUNCTIONS - - - - - - - - - - - - - - - -
-
 
 def getName():
     return simpledialog.askstring("Set name", "New set name: ")
@@ -25,17 +25,44 @@ def setRead():  # Function for set reading
     else:
         os.mkdir("sets")
 
+def selectSetByIndex(id):  # Functions for list element selection
+    global activeSetApps
+    global activeSet
+    activeSetApps.clear()
+    activeSet = sets[id]
+    try:
+        dir = "sets/"+str(activeSet)
+        f = open(dir, "r")
+        activeSetApps = f.read().split("\n")
+        printApps()
+        f.close()
+    except:
+        os.mkdir("sets")
+        dir = "sets/"+str(activeSet)+".txt"
+        f = open(dir, "r")
+        activeSetApps = f.read().split("\n")
+        printApps()
+        f.close()
+
 
 def selectSet(evt):  # Functions for list element selection
     global activeSetApps
     global activeSet
     activeSetApps.clear()
     activeSet = str(setsList.get(setsList.curselection()))
-    dir = "sets/"+str(activeSet)+".txt"
-    f = open(dir, "r")
-    activeSetApps = f.read().split("\n")
-    printApps()
-    f.close()
+    try:
+        dir = "sets/"+str(activeSet)+".txt"
+        f = open(dir, "r")
+        activeSetApps = f.read().split("\n")
+        printApps()
+        f.close()
+    except:
+        os.mkdir("sets")
+        dir = "sets/"+str(activeSet)+".txt"
+        f = open(dir, "r")
+        activeSetApps = f.read().split("\n")
+        printApps()
+        f.close()
 
 
 def appSelect(evt):
@@ -45,7 +72,6 @@ def appSelect(evt):
     print(activeApp)
 
 # BUTTTONS
-
 
 def addApp():  # Function for adding apps to set
     appClear()
@@ -109,7 +135,6 @@ def addSet():  # Function for adding new set
     printSets()
 
 # LISTING
-
 
 def printSets():  # Function for printing list of sets
     setClear()
@@ -193,9 +218,13 @@ removeApp = tk.Button(appsOptions, text="Remove App",
                       height=2, width=30, command=removeApp)
 removeApp.place(relx=0.6)
 
-
 setRead()
 printSets()
 printApps()
 
-root.mainloop()
+if len(sys.argv)>1 :
+    id = int(sys.argv[1])
+    selectSetByIndex(id-1)
+    runApps()
+else:
+    root.mainloop()
